@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container-fluid">
+	<h1>Schakeltijden</h1>
+	<table border="1" style="width:100%">
+		<tr>
+			<td>Q</td>
+			<td>NAAM</td>
+			<td>START 1</td>
+			<td>STOP 1</td>
+			<td>START 2</td>
+			<td>STOP 2</td>
+			<td>START 3</td>
+			<td>STOP 3</td>
+			<td>START 4</td>
+			<td>STOP 4</td>
+		</tr>
+		{% for output in gebruikt %}
+		<tr>
+			<form action="{{ url_for('submit') }}" method="post">
+				<td><input type="text" name="Q" value={{output}}></td>
+				<td>{{naam[output]}}</td>
+				<td><input type="text" name="start_1" value={{start_1[output]}}></td>
+				<td><input type="text" name="stop_1" value={{stop_1[output]}}></td>
+				<td><input type="text" name="start_2" value={{start_2[output]}}></td>
+				<td><input type="text" name="stop_2" value={{stop_2[output]}}></td>
+				<td><input type="text" name="start_3" value={{start_3[output]}}></td>
+				<td><input type="text" name="stop_3" value={{stop_3[output]}}></td>
+				<td><input type="text" name="start_4" value={{start_4[output]}}></td>
+				<td><input type="text" name="stop_4" value={{stop_4[output]}}></td>
+				<td><input type="submit" name={{output}} value="Send"></td>
+			</form>
+		</tr>
+		{% endfor %}
+	</table>
+	</div>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bediening</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+	
+<ul class="nav nav-tabs">
+	<li><a href="/home">Home</a></li>
+	<li class="active"><a href="/bediening">Bediening</a></li>
+	<li><a href="/timetable">Schakeltijden</a></li>
+</ul>
+<div class="jumbotron">
+  <h1>Bediening</h1>      
+  <p>Een object kan ofwel 'Manueel' ofwel 'Automatisch' gezet worden. In automatische modus wordt het object gestuurd door de tijdklokken met de schakeltijden. Als het object 'Manueel' staat is het mogelijk de uitgang te forceren, ongeacht de tijdklokken.</p>
+</div>
+	<table border="1" style="width:50%">
+	<tr>
+		<td>UITGANG</td><td>AUTO/MAN</td><td>MANUEEL</td>
+	</tr>	
+	{% for output in gebruikt %}
+	<tr>
+		<td>{{naam[output]}}</td>
+		<td>
+		{% if modus[output] == "1" %}
+		<a href="\modus\{{output}}">AUTO</a>
+		{% else %}
+		<a href="\modus\{{output}}">MANUEEL</a>
+		{% endif %} </td>
+		<td>{% if status[output] == "1" %}
+		<a href="\toggle\{{output}}">AAN</a>
+		{% else %}
+		<a href="\toggle\{{output}}">UIT</a>
+		{% endif %}</td>
+	</tr>
+	{% endfor %}
+	</table>
+</body>
+</html>
