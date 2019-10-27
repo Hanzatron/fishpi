@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Visbak - Schakeltijden</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="static/css/bootstrap.css">
+  <script src="static/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<ul class="nav nav-tabs">
+	<li><a href="/home"><i class="glyphicon glyphicon-home"></i>  Home</a></li>
+	<li><a href="/bediening"><i class="glyphicon glyphicon-hand-right"></i>  Bediening</a></li>
+	<li class="active"><a href="/timetable"><i class="glyphicon glyphicon-time"></i>  Schakeltijden</a></li>
+</ul>
+<br>
+<div class="jumbotron">
+  <h1><img src="static/img/FishPi_logo.png" style="width:105px;height:97px;">Schakeltijden</h1>  
+</div> 
+<div class="container-fluid">  
+ <div class="row">
+  <div class="col-sm-5">
+	  <h4><br></h4>    
+	  <h4>Stel in op welk tijdstip een object moet geactiveerd worden. Als een schakelklok niet gebruikt hoeft te worden, gewoon de start en stoptijd op 0 zetten.<br>
+  Let op: geen spatie tussen het uur en de minuten, dus kwart na 7 wordt 1915!</h4></div>
+<!--
+  <div class="col-sm-2"></div>
+-->
+  <div class="col-sm-5">
+  <h4>De tijden kunnen relatief genomen worden ten opzichte van zonsopgang of zonsondergang.<br>
+  Voorbeeld1: 1 uur na zonsopgang wordt zop+0100<br>
+  Voorbeeld2: 2 en half uur voor zonsondergang wordt zon-0230.
+  </h4></div>
+
+</div>
+  <h4>Vandaag is zonsopgang op {{zop}} en zonsondergang op {{zon}}.</h4>
+</div>
+<br>
+<br>
+<div class="container-fluid">
+	<div class="table-responsive">
+	<table class="table table-hover  table-bordered">
+		<thead>
+			<tr>
+				<th>Q</th>
+				<th>NAAM</th>
+				<th>START 1</th>
+				<th>STOP 1</th>
+				<th>START 2</th>
+				<th>STOP 2</th>
+				<th>START 3</th>
+				<th>STOP 3</th>
+				<th>START 4</th>
+				<th>STOP 4</div>
+			</tr>
+		</thead>
+		<tbody>
+			{% for output in gebruikt %}
+			<tr>
+				<form action="{{ url_for('submit') }}" method="post">
+					<td><input type="text" class="form-control" name="Q" value={{output}} size="2"></td>
+					<td style="vertical-align:middle;">{{naam[output]}}</td>
+					<td><input type="text" class="form-control" name="start_1" value={{start_1[output]}} size="6"></td>
+					<td><input type="text" class="form-control" name="stop_1" value={{stop_1[output]}} size="6"></td>
+					<td><input type="text" class="form-control" name="start_2" value={{start_2[output]}} size="6"></td>
+					<td><input type="text" class="form-control" name="stop_2" value={{stop_2[output]}} size="6"></td>
+					<td><input type="text" class="form-control" name="start_3" value={{start_3[output]}} size="6"></td>
+					<td><input type="text" class="form-control" name="stop_3" value={{stop_3[output]}} size="6"></td>
+					<td><input type="text" class="form-control" name="start_4" value={{start_4[output]}} size="6"></td>
+					<td><input type="text" class="form-control" name="stop_4" value={{stop_4[output]}} size="6"></td>
+					<td><button type="submit" class="btn btn-primary" name={{output}} value="Submit">Opslaan</button></td>				
+				</form>
+			</tr>
+			{% endfor %}
+			
+		</tbody>
+	</table>
+	</div>
+</div>
+</body>
+</html>

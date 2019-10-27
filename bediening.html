@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Visbak - Bediening</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="static/css/bootstrap.css">
+  <script src="static/js/bootstrap.min.js"></script>
+</head>
+<body>
+	
+<ul class="nav nav-tabs">
+	<li><a href="/home"><i class="glyphicon glyphicon-home"></i>  Home</a></li>
+	<li class="active"><a href="/bediening"><i class="glyphicon glyphicon-hand-right"></i>  Bediening</a></li>
+	<li><a href="/timetable"><i class="glyphicon glyphicon-time"></i>  Schakeltijden</a></li>
+</ul>
+<br>
+<div class="jumbotron">
+  <h1><img src="static/img/FishPi_logo.png" style="width:105px;height:97px;">Bediening</h1>      
+</div>
+<div class="container-fluid"> 
+<div class="row">
+	<h4><br></h4>    
+	<h4>Een object kan ofwel 'Manueel' ofwel 'Automatisch' gezet worden. In automatische modus wordt het object gestuurd door de tijdklokken met de schakeltijden. Als het object 'Manueel' staat is het mogelijk de uitgang te forceren, ongeacht de tijdklokken.</h4></div>
+	<br>
+	<br>
+<div class="row">
+	<div class="col-sm-4">
+		<div class="container-fluid">
+		<div class="table-responsive">
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>UITGANG</th>
+					<th>AUTO/MAN</th>
+					<th>MANUEEL</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for output in gebruikt %}
+				<tr>
+					<td style="vertical-align:middle;">{{naam[output]}}</td>
+					<td>
+						{% if modus[output] == "1" %}
+							<a href="\modus\{{output}}" class="btn btn-primary btn-block" role="button">AUTO</a>
+						{% else %}
+							<a href="\modus\{{output}}" class="btn btn-warning btn-block" role="button">MANUEEL</a>
+						{% endif %} </td>
+					
+					<td>{% if status[output] == "1" %}
+							<a href="\hand\{{output}}" class="btn btn-success btn-block" role="button">AAN</a>
+						{% else %}
+							<a href="\hand\{{output}}" class="btn btn-primary btn-block" role="button">UIT</a>
+						{% endif %}</td>
+					</tr>
+				{% endfor %}
+		</table>
+		</div>
+		</div>
+	</div>
+	<div class="col-sm-4">
+		<br>
+		<br>
+		
+	</div>
+</div>
+</body>
+</html>
