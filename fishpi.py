@@ -159,7 +159,7 @@ class Uitgang(object):
 				tijdklok(self.wstart_4,self.wstop_4)))
 
 def leesdata(Q):
-	with open("/Visbak/tijden.csv", "r") as datafile:
+	with open("tijden.csv", "r") as datafile:
 		filedata = []
 		lines = datafile.readlines()
 		for lijn in lines:
@@ -180,7 +180,7 @@ def leesdata(Q):
 
 def savedata(Q):
 
-	with open("/Visbak/tijden.csv", "r+") as datafile:
+	with open("tijden.csv", "r+") as datafile:
 		lijnen = datafile.readlines()
 		for lijn in range (26):
 			lijnen[lijn] = ""
