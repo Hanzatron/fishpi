@@ -8,7 +8,7 @@
 # V1.0		22/02/15		Flask webserver toegevoegd
 # V1.1		24/02/15		zonsondergang/opgang toegevoegd
 # V1.2		25/02/15		Debug tijdklok()
-# V2.0		28/10/19		aangepast naar python3
+# V2.0		28/10/19		aangepast naar python3 (enkel print())
 #####################################################################################
 # Sturing visbak
 # Voor zonsopgang/ondergang wordt PyEphem gebruikt. pip install pyephem
