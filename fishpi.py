@@ -8,7 +8,7 @@
 # V1.0		22/02/15		Flask webserver toegevoegd
 # V1.1		24/02/15		zonsondergang/opgang toegevoegd
 # V1.2		25/02/15		Debug tijdklok()
-# V2.0		28/10/19		aangepast naar python3 (enkel print())
+# V2.0		01/11/19		Outputs geinverteerd, owv relaiskaart LOW ACTIVE
 #####################################################################################
 # Sturing visbak
 # Voor zonsopgang/ondergang wordt PyEphem gebruikt. pip install pyephem
@@ -24,6 +24,7 @@ import RPi.GPIO as GPIO #GPIO importeren om te kunnen gebruiken
 import time #sleep functie
 from datetime import datetime, timedelta
 from threading import Thread
+import os
 import ephem
 
 def tijdklok(tijd_aan, tijd_uit):
@@ -130,15 +131,6 @@ class Uitgang(object):
 		else:
 			self.auto = 1
 
-	#~ def uitgang(self):
-		#~ if int(self.auto) == 0:
-			#~ return int(self.hand_on)
-		#~ else:
-			#~ return tijdklok(self.wstart_1,self.wstop_1) or \
-				#~ tijdklok(self.wstart_2,self.wstop_2) or \
-				#~ tijdklok(self.wstart_3,self.wstop_3) or \
-				#~ tijdklok(self.wstart_4,self.wstop_4)
-
 	def stuur_uitgang(self):
 		self.wstart_1 = tijdconv(self.start_1)
 		self.wstop_1 = tijdconv(self.stop_1)
@@ -148,15 +140,22 @@ class Uitgang(object):
 		self.wstop_3 = tijdconv(self.stop_3)
 		self.wstart_4 = tijdconv(self.start_4)
 		self.wstop_4 = tijdconv(self.stop_4)
+		self.aan = False
+
 
 		GPIO.setup(self.pin, GPIO.OUT)
 		if int(self.auto) == 0:
-			GPIO.output(self.pin, int(self.hand_on))
+			self.aan = int(self.hand_on)
 		else:
-			GPIO.output(self.pin, (tijdklok(self.wstart_1,self.wstop_1) or \
+			self.aan = (
+				tijdklok(self.wstart_1,self.wstop_1) or \
 				tijdklok(self.wstart_2,self.wstop_2) or \
 				tijdklok(self.wstart_3,self.wstop_3) or \
-				tijdklok(self.wstart_4,self.wstop_4)))
+				tijdklok(self.wstart_4,self.wstop_4)
+			)
+
+		GPIO.output(self.pin, not self.aan) #V2.0 output is geinverteerd, de relaiskaart is LOW ACTIVE
+
 
 def leesdata(Q):
 	with open("/home/pi/Python/fishpi/tijden.csv", "r") as datafile:
@@ -213,8 +212,8 @@ def Main():
 	GPIO.setmode(GPIO.BCM) #Nummering van de poorten gebruiken zoals op printplaat
 	try:
 		Q = [] #init
-		alles = [4,17,21,22,10,9,11,7,24,25,8,7] 	#uitgangen zichtbaar op Bediening.html
-		gebruikt = [4,17,21,22,10,9,11]				#uitgangen zichtbaar op Timetable.html
+		alles = [24,25,8,7,12,16,20,21] 	#uitgangen zichtbaar op Bediening.html
+		gebruikt = [24,25,8,7,12,16,20,21]				#uitgangen zichtbaar op Timetable.html
 
 		for pin in range (26):						#voor iedere pin een Uitgangobject aanmaken
 			Q.append(Uitgang(pin))
@@ -299,6 +298,20 @@ def Main():
 
 		@app.route('/home')
 		def home():
+			return render_template("home.html")
+
+		@app.route('/shutdown')
+		def shutdown():
+			GPIO.cleanup()
+			time.sleep(1)
+			os.system('sudo shutdown now')
+			return render_template("home.html")
+
+		@app.route('/reboot')
+		def reboot():
+			GPIO.cleanup()
+			time.sleep(1)
+			os.system('sudo reboot')
 			return render_template("home.html")
 
 		@app.route('/')
